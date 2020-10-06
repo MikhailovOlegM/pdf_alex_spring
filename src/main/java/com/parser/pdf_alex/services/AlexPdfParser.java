@@ -1,4 +1,4 @@
-package com.parser.pdf_alex;
+package com.parser.pdf_alex.services;
 
 import com.google.gson.Gson;
 import com.itextpdf.text.pdf.PdfReader;
@@ -14,15 +14,15 @@ import java.text.ParseException;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-public class Test {
+public class AlexPdfParser {
 
 
-    public static void main(String[] args) throws IOException, ParseException {
-        String path = "/media/hdd/Documents/coding/pdf_alex/src/main/resources/receipt.pdf";
+    public FirstPageContainer parse(String path) throws IOException, ParseException {
+//        String path = "/media/hdd/Documents/coding/pdf_alex/src/main/resources/receipt.pdf";
         File file = new File(path);
 
         if (!file.exists()) {
-            return;
+            return null;
         }
 
         PdfReader reader = new PdfReader(path);
@@ -118,61 +118,9 @@ public class Test {
 
             }
 
-
-//            System.out.println(text);
-//            System.out.println("=======================");
         }
-        System.out.println(new Gson().toJson(fp));
-
-//
-//        List<Point> points = new ArrayList<>();
-//
-//        File file = new File(path);
-//        FileInputStream fis = new FileInputStream(file);
-//        XWPFDocument doc = new XWPFDocument(fis);
-//        List<XWPFTable> tables = doc.getTables();
-//
-//        int count = 0;
-//        int pageCount = 0;
-//        for (XWPFTable table : tables) {
-//
-//            for (XWPFTableRow row : table.getRows()) {
-//                String pName = null;
-//                String name = null;
-//                int rate = 0;
-//                for (XWPFTableCell cell : row.getTableCells()) {
-//                    count++;
-//
-//                    if (count > 3) {
-//                        System.out.println(cell.getText());
-//                    }
-//
-////                    System.out.println("i:" + count + " " + cell.getText());
-//
-//                    if (count == 1) {
-//                        pName = cell.getText();
-//                    } else if (count == 2) {
-//                        name = cell.getText();
-//                    } else if (count == 3 && !cell.getText().isEmpty()) {
-//                        rate = Integer.parseInt(cell.getText());
-//                    }
-//
-//                }
-//                count = 0;
-//
-//                if (name == null || name.isEmpty()) {
-//                    continue;
-//                }
-//                points.add(new Point(pName, name, rate));
-//                System.out.println(" ");
-//            }
-//            System.out.println("________________");
-//            System.out.println(new Gson().toJson(points));
-//            System.out.println("________________");
-//
-//            points = new ArrayList<>();
-//        }
-
+//        System.out.println(new Gson().toJson(fp));
+        return fp;
 
     }
 }
