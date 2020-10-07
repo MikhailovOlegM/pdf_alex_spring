@@ -15,6 +15,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jdbc', version: '2.3.4.RELEASE'
 	runtimeOnly 'mysql:mysql-connector-java'
 
 // https://mvnrepository.com/artifact/com.itextpdf/itextpdf

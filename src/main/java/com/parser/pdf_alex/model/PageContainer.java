@@ -1,10 +1,10 @@
-package com.parser.pdf_alex.pages;
+package com.parser.pdf_alex.model;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class FirstPageContainer {
+public class PageContainer {
     private String cityLab;
     private String userName;
     private Date dob;

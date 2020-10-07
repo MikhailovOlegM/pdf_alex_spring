@@ -1,4 +1,4 @@
-package com.parser.pdf_alex;
+package com.parser.pdf_alex.services.db;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

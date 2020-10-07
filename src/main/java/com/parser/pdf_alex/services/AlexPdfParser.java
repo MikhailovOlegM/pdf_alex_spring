@@ -1,12 +1,11 @@
 package com.parser.pdf_alex.services;
 
-import com.google.gson.Gson;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.LocationTextExtractionStrategy;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
-import com.parser.pdf_alex.pages.DataContainer;
-import com.parser.pdf_alex.pages.FirstPageContainer;
+import com.parser.pdf_alex.model.DataContainer;
+import com.parser.pdf_alex.model.PageContainer;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +16,7 @@ import java.util.regex.Matcher;
 public class AlexPdfParser {
 
 
-    public FirstPageContainer parse(String path) throws IOException, ParseException {
+    public PageContainer parse(String path) throws IOException, ParseException {
 //        String path = "/media/hdd/Documents/coding/pdf_alex/src/main/resources/receipt.pdf";
         File file = new File(path);
 
@@ -26,9 +25,8 @@ public class AlexPdfParser {
         }
 
         PdfReader reader = new PdfReader(path);
-        FirstPageContainer fp = new FirstPageContainer();
+        PageContainer fp = new PageContainer();
 
-        // не забываем, что нумерация страниц в PDF начинается с единицы.
         for (int i = 1; i <= reader.getNumberOfPages(); ++i) {
 
             TextExtractionStrategy strategy = new LocationTextExtractionStrategy();
@@ -51,15 +49,15 @@ public class AlexPdfParser {
                     if (tmp.contains("Пацієнт")) {
                         fp.setUserName(tmp.substring(tmp.indexOf(": ") + 1));
                     } else if (tmp.contains("Дата народження")) {
-                        fp.setDob(FirstPageContainer.DateFor.parse(tmp.substring(tmp.indexOf(": ") + 1)));
+                        fp.setDob(PageContainer.DateFor.parse(tmp.substring(tmp.indexOf(": ") + 1)));
                     } else if (tmp.contains("Штрих код:")) {
                         fp.setBarcode(tmp.substring(tmp.indexOf(": ") + 1));
                     } else if (tmp.contains("Забір крові")) {
-                        fp.setBloodSampleDate(FirstPageContainer.DateFor.parse(tmp.substring(tmp.indexOf(": ") + 1)));
+                        fp.setBloodSampleDate(PageContainer.DateFor.parse(tmp.substring(tmp.indexOf(": ") + 1)));
                     } else if (tmp.contains("Протестовано")) {
-                        fp.setTestDate(FirstPageContainer.DateFor.parse(tmp.substring(tmp.indexOf(": ") + 1)));
+                        fp.setTestDate(PageContainer.DateFor.parse(tmp.substring(tmp.indexOf(": ") + 1)));
                     } else if (tmp.contains("Надрукований на")) {
-                        fp.setReleasedDate(FirstPageContainer.DateFor.parse(tmp.substring(tmp.indexOf(": ") + 1)));
+                        fp.setReleasedDate(PageContainer.DateFor.parse(tmp.substring(tmp.indexOf(": ") + 1)));
                     }
 
                     if (pageIndex > 12) {
@@ -68,8 +66,8 @@ public class AlexPdfParser {
                         if (tmp.contains("детермінанти)")) {
                             tmp = "CCD (перехресно-реактивні вуглеводні " + tmp;
                         }
-                        Matcher matcher = FirstPageContainer.TableStrim.matcher(tmp);
-                        Matcher number = FirstPageContainer.Number.matcher(tmp);
+                        Matcher matcher = PageContainer.TableStrim.matcher(tmp);
+                        Matcher number = PageContainer.Number.matcher(tmp);
 
                         if (number.find()) {
                             int index = number.start() + 3;
@@ -102,7 +100,7 @@ public class AlexPdfParser {
                 for (int pageIndex = 0; pageIndex < textArray.length; pageIndex++) {
                     String tmp = textArray[pageIndex];
 
-                    Matcher dataParser = FirstPageContainer.OtherData.matcher(tmp);
+                    Matcher dataParser = PageContainer.OtherData.matcher(tmp);
                     if (dataParser.find()) {
                         String name = Optional.ofNullable(dataParser.group(1)).orElse("").trim();
                         String allergen = Optional.ofNullable(dataParser.group(2)).orElse("").trim();

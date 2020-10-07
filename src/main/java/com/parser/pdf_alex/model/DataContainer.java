@@ -1,4 +1,4 @@
-package com.parser.pdf_alex.pages;
+package com.parser.pdf_alex.model;
 
 public class DataContainer {
     private String name;
